@@ -14,12 +14,23 @@ const donorSchema = new mongoose.Schema({
 
   password: {
     type: String,
-    // required: true,
+    required: true,
   },
 
   bloodGroup: {
     type: String,
     required: true,
+  },
+
+  bloodDonationHistory: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Request",
+    },
+  ],
+
+  token: {
+    type: String,
   },
 });
 

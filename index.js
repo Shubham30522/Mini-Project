@@ -11,7 +11,8 @@ dotenv.config();
 const PORT = process.env.PORT || 4000;
 
 const hospitalRoutes = require("./routes/Hospital");
-const donorRoutes = require("./routes/Donor");
+// const donorRoutes = require("./routes/Donor");
+const userRoutes = require("./routes/User");
 
 //database connect
 database.connect();
@@ -26,7 +27,8 @@ app.use(
 );
 
 app.use("/request", hospitalRoutes);
-app.use("/user", donorRoutes);
+// app.use("/user", donorRoutes);
+app.use("/auth", userRoutes);
 
 app.get("/", (req, res) => {
   return res.json({

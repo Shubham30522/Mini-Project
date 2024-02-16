@@ -16,10 +16,13 @@ const mailSender = async (email, title, body) => {
       subject: `${title}`,
       html: `${body}`,
     });
-    console.log(info);
+
+    console.log("Email sent successfully:", info);
+
     return info;
   } catch (error) {
-    console.log(error.message);
+    console.error("Error sending email:", error.message);
+    throw error; // Rethrow the error to propagate it to the calling function
   }
 };
 
