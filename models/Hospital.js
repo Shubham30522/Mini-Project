@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const hospitalSchema = new mongoose.Schema({
-  name: {
+  hospitalName: {
     type: String,
     required: true,
   },
@@ -27,6 +27,16 @@ const hospitalSchema = new mongoose.Schema({
       ref: "Request",
     },
   ],
+
+  token: {
+    type: String,
+  },
+
+  accountType: {
+    type: String,
+    enum: ["Donor", "Hospital"],
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Hospital", hospitalSchema);

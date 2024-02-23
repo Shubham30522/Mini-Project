@@ -67,7 +67,6 @@ exports.newRequestEmail = (donorName, HospitalName, bloodGroup) => {
     
     <body>
         <div class="container">
-  <a href="#"><img class="logo" src="https://i.ibb.co/7Xyj3PC/logo.png" alt="Blood Buddy Logo"></a>
   <div class="message">New Blood Request Added</div>
   <div class="body">
     <p>Dear ${donorName},</p>

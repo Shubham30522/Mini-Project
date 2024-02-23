@@ -1,61 +1,79 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const User = require("../models/User");
 
 //auth
+
 exports.auth = async (req, res, next) => {
-    try{
-        //extract token
-        const token = req.cookies.token 
-                        || req.body.token 
-                        || req.header("Authorisation").replace("Bearer ", "");
+  try {
+    //extract token
+    const token =
+      req.cookies.token ||
+      req.body.token ||
+      req.header("Authorization").replace("Bearer ", "");
 
-        //if token missing, then return response
-        if(!token) {
-            return res.status(401).json({
-                success:false,
-                message:'Token is missing',
-            });
-        }
-
-        //verify the token
-        try{
-            const decode =  jwt.verify(token, process.env.JWT_SECRET);
-            console.log(decode);
-            req.user = decode;
-        }
-        catch(err) {
-            //verification - issue
-            return res.status(401).json({
-                success:false,
-                message:'token is invalid',
-            });
-        }
-        next();
+    //if token missing, then return response
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "Token is missing",
+      });
     }
-    catch(error) {  
-        return res.status(401).json({
-            success:false,
-            message:'Something went wrong while validating the token',
-        });
-    }
-}
 
-//isStudent
+    //verify the token
+    try {
+      const decode = jwt.verify(token, process.env.JWT_SECRET);
+      console.log("Printing decoded token", JSON.stringify(decode));
+      req.user = decode;
+    } catch (err) {
+      //verification - issue
+      return res.status(401).json({
+        success: false,
+        message: "token is invalid",
+      });
+    }
+    console.log(req.user);
+    next();
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      message: "Something went wrong while validating the token",
+    });
+  }
+};
+
+//isDonor
 exports.isDonor = async (req, res, next) => {
- try{
-        if(req.user.accountType !== "Student") {
-            return res.status(401).json({
-                success:false,
-                message:'This is a protected route for Students only',
-            });
-        }
-        next();
- }
- catch(error) {
+  try {
+    if (req.user.accountType !== "Donor") {
+      return res.status(401).json({
+        success: false,
+        message: "This is a protected route for Donor only",
+      });
+    }
+    next();
+  } catch (error) {
     return res.status(500).json({
-        success:false,
-        message:'User role cannot be verified, please try again'
-    })
- }
-}
+      success: false,
+      message: "User role cannot be verified, please try again",
+    });
+  }
+};
+
+//isHospital
+exports.isHospital = async (req, res, next) => {
+  try {
+    console.log("Printing user's accountType: ", req.user.accountType);
+    if (req.user.accountType !== "Hospital") {
+      return res.status(401).json({
+        success: false,
+        message: "This is a protected route for Hospital only",
+      });
+    }
+    next();
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "User role cannot be verified, please try again",
+    });
+  }
+};

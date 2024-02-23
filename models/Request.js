@@ -4,10 +4,10 @@ const mailSender = require("../utils/mailSender");
 const Donor = require("../models/Donor");
 
 const requestSchema = new mongoose.Schema({
-  H_id: {
+  Hospital_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Hospital",
-    // required: true,
+    required: true,
   },
 
   bloodGroup: {
@@ -16,15 +16,14 @@ const requestSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["pending", "fulfill"],
+    enum: ["pending","temporayFulfilled", "fulfill"],
+    default: "pending",
   },
-  donorResponse: {
-    type: String,
-    enum: ["agree"],
-  },
+  
   D_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Donor",
+    default: null,
   },
 });
 

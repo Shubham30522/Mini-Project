@@ -32,6 +32,19 @@ const donorSchema = new mongoose.Schema({
   token: {
     type: String,
   },
+
+  accountType: {
+    type: String,
+    enum: ["Donor", "Hospital"],
+    required: true,
+  },
+
+  ignoredRequests: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Request",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Donor", donorSchema);
